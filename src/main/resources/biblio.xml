@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bibliotheque nom="Médiathèque du Quartier El Bahri"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="biblio.xsd">
+    <livres>
+        <livre id="L001" categorie="roman" disponible="false">
+            <titre>L'Étranger</titre>
+            <auteur>Albert Camus</auteur>
+            <annee>1942</annee>
+        </livre>
+        <livre id="L002" categorie="science" disponible="true">
+            <titre>Une brève histoire du temps</titre>
+            <auteur>Stephen Hawking</auteur>
+            <annee>1988</annee>
+        </livre>
+        <livre id="L003" categorie="roman" disponible="false">
+            <titre>Les Misérables</titre>
+            <auteur>Victor Hugo</auteur>
+            <annee>1862</annee>
+        </livre>
+        <livre id="L004" categorie="jeunesse" disponible="true">
+            <titre>Le Petit Prince</titre>
+            <auteur>Antoine de Saint-Exupéry</auteur>
+            <annee>1943</annee>
+        </livre>
+        <livre id="L005" categorie="histoire" disponible="false">
+            <titre>Les Voyages d'Ibn Battuta</titre>
+            <auteur>Ibn Battuta</auteur>
+            <annee>1355</annee>
+        </livre>
+    </livres>
+
+    <adherents>
+        <adherent id="A001" actif="true">
+            <nom>Ben Salah</nom>
+            <prenom>Yasmine</prenom>
+            <email>yasmine.bensalah@example.tn</email>
+            <dateInscription>2025-09-15</dateInscription>
+        </adherent>
+        <adherent id="A002" actif="true">
+            <nom>Trabelsi</nom>
+            <prenom>Mehdi</prenom>
+            <email>mehdi.trabelsi@example.tn</email>
+            <dateInscription>2026-01-10</dateInscription>
+        </adherent>
+        <adherent id="A003" actif="false">
+            <nom>Gharbi</nom>
+            <prenom>Salma</prenom>
+            <email>salma.gharbi@example.tn</email>
+            <dateInscription>2024-03-02</dateInscription>
+        </adherent>
+    </adherents>
+
+    <prets>
+        <pret id="P001" livreRef="L001" adherentRef="A001">
+            <datePret>2026-09-20</datePret>
+            <dateRetourPrevue>2026-10-04</dateRetourPrevue>
+        </pret>
+        <pret id="P002" livreRef="L003" adherentRef="A001">
+            <datePret>2026-10-10</datePret>
+            <dateRetourPrevue>2026-10-24</dateRetourPrevue>
+        </pret>
+        <pret id="P003" livreRef="L005" adherentRef="A002">
+            <datePret>2026-10-15</datePret>
+            <dateRetourPrevue>2026-10-29</dateRetourPrevue>
+        </pret>
+        <pret id="P004" livreRef="L004" adherentRef="A002">
+            <datePret>2026-08-01</datePret>
+            <dateRetourPrevue>2026-08-15</dateRetourPrevue>
+            <dateRetourEffective>2026-08-12</dateRetourEffective>
+        </pret>
+    </prets>
+
+    <evenements>
+        <evenement id="E001">
+            <titre>Atelier d'écriture</titre>
+            <date>2026-10-28</date>
+            <capacite>15</capacite>
+        </evenement>
+        <evenement id="E002">
+            <titre>Lecture de contes pour enfants</titre>
+            <date>2026-11-07</date>
+            <capacite>25</capacite>
+        </evenement>
+    </evenements>
+
+</bibliotheque>

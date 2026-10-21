@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+    <xs:simpleType name="IdLivreType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="L\d{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="IdAdherentType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="A\d{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="IdPretType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="P\d{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="IdEvenementType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="E\d{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CategorieType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="roman"/>
+            <xs:enumeration value="science"/>
+            <xs:enumeration value="jeunesse"/>
+            <xs:enumeration value="histoire"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="AnneeType">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="1000"/>
+            <xs:maxInclusive value="2100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="EmailType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^@\s]+@[^@\s]+\.[a-z]{2,}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CapaciteType">
+        <xs:restriction base="xs:positiveInteger">
+            <xs:maxInclusive value="500"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="LivreType">
+        <xs:sequence>
+            <xs:element name="titre" type="xs:string"/>
+            <xs:element name="auteur" type="xs:string"/>
+            <xs:element name="annee" type="AnneeType"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="IdLivreType" use="required"/>
+        <xs:attribute name="categorie" type="CategorieType" use="required"/>
+        <xs:attribute name="disponible" type="xs:boolean" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="AdherentType">
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string"/>
+            <xs:element name="prenom" type="xs:string"/>
+            <xs:element name="email" type="EmailType"/>
+            <xs:element name="dateInscription" type="xs:date"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="IdAdherentType" use="required"/>
+        <xs:attribute name="actif" type="xs:boolean" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="PretType">
+        <xs:sequence>
+            <xs:element name="datePret" type="xs:date"/>
+            <xs:element name="dateRetourPrevue" type="xs:date"/>
+            <xs:element name="dateRetourEffective" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="IdPretType" use="required"/>
+        <xs:attribute name="livreRef" type="IdLivreType" use="required"/>
+        <xs:attribute name="adherentRef" type="IdAdherentType" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="EvenementType">
+        <xs:sequence>
+            <xs:element name="titre" type="xs:string"/>
+            <xs:element name="date" type="xs:date"/>
+            <xs:element name="capacite" type="CapaciteType"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="IdEvenementType" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="bibliotheque">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="livres">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="livre" type="LivreType" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="adherents">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="adherent" type="AdherentType" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="prets">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="pret" type="PretType" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="evenements">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="evenement" type="EvenementType" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="nom" type="xs:string" use="required"/>
+        </xs:complexType>
+
+        <xs:key name="livreKey">
+            <xs:selector xpath="livres/livre"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+
+        <xs:key name="adherentKey">
+            <xs:selector xpath="adherents/adherent"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+
+        <xs:keyref name="pretLivreRef" refer="livreKey">
+            <xs:selector xpath="prets/pret"/>
+            <xs:field xpath="@livreRef"/>
+        </xs:keyref>
+
+        <xs:keyref name="pretAdherentRef" refer="adherentKey">
+            <xs:selector xpath="prets/pret"/>
+            <xs:field xpath="@adherentRef"/>
+        </xs:keyref>
+    </xs:element>
+
+</xs:schema>
